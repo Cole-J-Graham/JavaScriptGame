@@ -1,0 +1,242 @@
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Silkscreen', cursive;
+        }
+        body {
+            background-color: black;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        button {
+            border: 0;
+        }
+
+        button:hover {
+            background-color: #ddd;
+            cursor: pointer;
+        }
+
+        #footerButton:hover {
+            background-color: rgb(240, 240, 240);
+            cursor: pointer;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<div style="display: inline-block; position: relative;">
+    <div id="overlappingDiv"
+    style="
+        background-color: black; 
+        position: absolute; 
+        top: 0; 
+        right: 0; 
+        bottom: 0; 
+        left: 0; 
+        opacity: 0; 
+        pointer-events: none;
+        z-index: 10;
+        "
+    ></div>
+
+    <canvas></canvas>
+
+    <div
+        id="inventory"
+        style="
+        display: none;
+        border: 4px black solid;
+        color: black;
+        background-color: white;
+        position: absolute;
+        left: 0px;
+        right: 1200px;
+        top: 100px;
+        bottom: 100px;
+        "
+        >
+    </div>
+
+    <div id="footer"
+    style="
+    border-top: 4px black solid;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 775px;
+    bottom: 0;
+    background-color: white;
+    ">
+    <img
+        style="
+        position: absolute;
+        user-select: none;
+        left: 35px;
+        bottom: 0;
+        max-width: 2.5%" 
+        src="F:\Code\VSCode\JavaScript\JavaScript Projects\JavaScriptGame\Assets\invIcon.png">
+        <p
+        onclick="menu()"
+        id="footerButton"
+        style="
+        color: black;
+        font-size: 16px;
+        position: absolute;
+        left: 0;
+        right: 1480;
+        top: -16px;
+        bottom: -16px;
+        user-select: none;
+        ">
+        Inventory^
+        </p>
+    </div>
+
+    <div id="expBar"
+        style="
+        background-color: white; 
+        width: 200px; 
+        height: 10px; 
+        position: absolute;
+        top: 50px;
+        left: 50px;
+        border: 4px black solid;
+        padding: 12px;">
+        <h2 
+        id="expText"
+        style="
+        background-color: white;
+        color: black;
+        font-size: 16px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -15;
+        ">Level: 1</h2>
+        <div 
+        id="expStatBar"
+        style="
+        width: 0;
+        height: 5px; 
+        background-color: aqua;
+        position: absolute; 
+        left: 0; 
+        right: 0; 
+        top: 30;"
+        ></div>
+    </div>
+
+    <div id="userInterface">
+        <!--Hostile Health Bar-->
+        <div 
+            style="
+            background-color: white; 
+            width: 250px; 
+            height: 20px; 
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            border: 4px black solid;
+            padding: 12px;
+        ">
+            <h1 style="font-size: 16px;">Abomination</h1>
+            <div style="position: relative;">
+                <div style="height: 5px; background-color: #ccc; margin-top: 5px;"></div>
+                <div 
+                id="enemyHealthBar"
+                style="
+                height: 5px; 
+                background-color: green; 
+                position: absolute; 
+                left: 0; 
+                right: 0; 
+                top: 0;"></div>
+            </div>
+        </div>
+
+        <!--Player Health Bar-->
+        <div style="
+            background-color: white; 
+            width: 250px; 
+            height: 20px; 
+            position: absolute;
+            top: 600px;
+            right: 330px;
+            border: 4px black solid;
+            padding: 12px;
+        ">
+            <h1 style="font-size: 16px;">Cat</h1>
+            <div style="position: relative;">
+                <div style="height: 5px; background-color: #ccc; margin-top: 5px;"></div>
+                <div 
+                id="playerHealthBar"
+                style="
+                height: 5px; 
+                background-color: green; 
+                position: absolute; 
+                left: 0; 
+                right: 0; 
+                top: 0;"
+            >
+            </div>
+        </div>
+        
+    </div>
+
+    <div style="
+        background-color: white; 
+        height: 140px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border: 4px black solid;
+        display: flex;
+    ">
+        <div
+        id="dialogueBox"
+        style="
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: white;
+            padding: 12px;
+            display: none;
+            cursor: pointer;
+            "
+        ></div> 
+    <div 
+    id="attacksBox" 
+    style="width: 67.77%; 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr)
+    "></div>
+    <div style="
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32.22%;
+        border-left: 4px black solid;
+    ">
+        <h1 id="attackType">Attack Type</h1>
+    </div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js" integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="F:/Code/VSCode/JavaScript/JavaScript Projects/JavaScriptGame/battleZones.js"></script>
+<script src="F:/Code/VSCode/JavaScript/JavaScript Projects/JavaScriptGame/collision.js"></script>
+<script src="F:/Code/VSCode/JavaScript/JavaScript Projects/JavaScriptGame/attacks.js"></script>
+<script src="F:/Code/VSCode/JavaScript/JavaScript Projects/JavaScriptGame/monsters.js"></script>
+<script src="F:/Code/VSCode/JavaScript/JavaScript Projects/JavaScriptGame/classes.js"></script>
+<script src="F:/Code/VSCode/JavaScript/JavaScript Projects/JavaScriptGame/index.js"></script>
+<script src="F:/Code/VSCode/JavaScript/JavaScript Projects/JavaScriptGame/battleScene.js"></script>
